@@ -14,8 +14,12 @@ const createReport = violations => {
         return green('0 violations found');
     }
 
-    const report = violations.reduce((acc, { nodes, help }, i) => {
+    const report = violations.reduce((acc, { nodes, help, helpUrl, tags, impact, id }, i) => {
         acc += red(`${i + 1}) ${help}\n`);
+        acc += red(`* ${helpUrl}\n`);
+        acc += red(`* ${tags.join(', ')}\n`);
+        acc += red(`* ${impact}\n`);
+        acc += red(`* ${id}\n`);
 
         acc += reset(nodes.reduce((e, { target }) => {
             const targetNodes = target.map((t) => `"${t}"`).join(', ');
@@ -31,8 +35,11 @@ const createReport = violations => {
 
 };
 
-const axeCheck = async (t, context, options) => {
+const axeCheck = async (t, context, options={}) => {
     try {
+        // skipping the "document-title" rule as there is an issue with testcafe
+        // being unable to find the title of a page inside the <head> tag.
+        options = options["rules"]['document-title'] = {'enabled': false};
         return await runAxe.with({ boundTestRun: t })(context, options);
     } catch (e) {
         return { error: e };
