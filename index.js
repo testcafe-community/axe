@@ -47,6 +47,8 @@ const checkForViolations = ({numAllowed=0,context,options}) => {
     const {violations} = await axeCheck(context, options);
 
     await t.expect(violations.length <= numAllowed).ok(createReport(violations));
+
+    return {violations};
 }
 
 module.exports = {
