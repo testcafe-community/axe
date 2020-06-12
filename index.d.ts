@@ -3,7 +3,6 @@ declare module 'axe-testcafe' {
   import 'testcafe';
 
   export function axeCheck(
-    t: TestController,
     context?: ElementContext,
     options?: {
       runOnly?: RunOnly;
@@ -13,6 +12,7 @@ declare module 'axe-testcafe' {
       selectors?: Boolean;
     }
   ): Promise<AxeResults>;
+
 
   export function createReport(violations: Result[]): string;
 }

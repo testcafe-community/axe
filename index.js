@@ -2,13 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { ClientFunction } = require('testcafe');
 const { red, green, reset } = require('chalk');
-
-const AXE_DIR_PATH = path.dirname(require.resolve('axe-core'));
-const AXE_SCRIPT = fs.readFileSync(path.join(AXE_DIR_PATH, 'axe.min.js'), 'utf8');
-
-const hasAxe = ClientFunction(() => !!(window.axe && window.axe.run));
-
-const injectAxe = ClientFunction(() => eval(AXE_SCRIPT), { dependencies: { AXE_SCRIPT } });
+const {t} = require('testcafe');
 
 const runAxe = ClientFunction((context, options = {}) => {
     return new Promise((resolve) => {
@@ -41,17 +35,19 @@ const createReport = violations => {
     
 };
 
-const axeCheck = async (t, context, options) => {
-    const hasScript = await hasAxe.with({ boundTestRun: t })();
-    if (!hasScript)
-        await injectAxe.with({ boundTestRun: t })();
-
+const axeCheck = async (context, options) => {
     try {
         return await runAxe.with({ boundTestRun: t })(context, options);
     } catch (e) {
         return { error: e };
     }
 };
+
+const checkForViolations = ({numAllowed=0,context,options}) => {
+    const {violations} = await axeCheck(context, options);
+
+    await t.expect(violations.length <= numAllowed).ok(createReport(violations));
+}
 
 module.exports = {
     axeCheck,
