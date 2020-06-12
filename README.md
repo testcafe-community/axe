@@ -60,3 +60,19 @@ test('Automated accessibility testing', async () => {
     // do stuff with violations.
 });
 ```
+
+## Legacy API
+
+This project was forked from [axe-testcafe](https://github.com/helen-dikareva/axe-testcafe) which has been dormant for quite some time.  If you prefer to use that API you can still use that:
+
+```js
+import { axeCheck, createReport } from 'axe-testcafe';
+
+fixture `TestCafe tests with Axe`
+    .page `http://example.com`;
+
+test('Automated accessibility testing', async t => {
+    const { error, violations } = await axeCheck(t);
+    await t.expect(violations.length === 0).ok(createReport(violations));
+});
+```
