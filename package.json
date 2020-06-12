@@ -34,6 +34,9 @@
   "dependencies": {
     "chalk": "^2.4.1"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "axe-core": "^3.5.4"
   }
