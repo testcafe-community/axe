@@ -3,8 +3,8 @@ const { red, green, reset } = require('chalk');
 
 const runAxe = ClientFunction((context, options = {}) => {
     return new Promise((resolve) => {
-        axe.run(context || document, options, (error, { violations }) => {
-            resolve({ error, violations });
+        axe.run(context || document, options, (error, results) => {
+            resolve({ error, results });
         });
     });
 });
@@ -35,6 +35,19 @@ const createReport = violations => {
 
 };
 
+/**
+ * Performs check with axe-core library.
+ * Returns full results object that contains arrays of 'violations', 'passes', 'incomplete',
+ * 'inapplicable' and additional values.
+ * Axe results object: https://www.deque.com/axe/core-documentation/api-documentation/#results-object
+ */
+/**
+ *
+ * @param t
+ * @param context
+ * @param options
+ * @returns {Promise<{error: *}|{error: *, results: {passes: *, violations: * }}>}
+ */
 const axeCheck = async (t, context, options={}) => {
     try {
         // skipping the "document-title" rule as there is an issue with testcafe
@@ -47,12 +60,14 @@ const axeCheck = async (t, context, options={}) => {
 };
 
 const checkForViolations = async (t, context, options) => {
-    const { violations = [] } = await axeCheck(t, context, options);
+    const { results } = await axeCheck(t, context, options);
 
-    await t.expect(violations.length === 0).ok(createReport(violations));
+    await t.expect(results.violations.length === 0).ok(createReport(results.violations));
 }
 
+
 module.exports = {
+    runAxe,
     axeCheck,
     createReport,
     checkForViolations
