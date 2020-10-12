@@ -7,6 +7,12 @@ The TestCafe module that allows you to use the [aXe](https://github.com/dequelab
 yarn add -D axe-core @testcafe-community/axe
 ```
 
+Or using npm:
+
+```bash
+npm i -D axe-core @testcafe-community/axe
+```
+
 ## How to use
 
 You can write a TestCafe test with automated accessibility checks like this.
@@ -38,6 +44,8 @@ If any accessibility issues are found, you will see a detailed report in the err
 The `@testcafe-community/axe` module allows you to define the `context` and `options` [axe.run parameters](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axerun) in a TestCafe test.
 
 ```js
+import { checkForViolations } from '@testcafe-community/axe';
+
 test('Automated accessibility testing', async (t) => {
     const context = { exclude: [['select']] };
     const options = { rules: { 'html-has-lang': { enabled: false } } };
@@ -59,5 +67,21 @@ fixture `TestCafe tests with Axe`
 test('Automated accessibility testing', async t => {
     const { error, violations } = await axeCheck(t);
     await t.expect(violations.length === 0).ok(createReport(violations));
+});
+```
+
+## Using full axe result object and axe.configure
+
+If you prefer to use a custom reporter for axe results you can get result object using runAxe function:
+
+```js
+import { runAxe } from '@testcafe-community/axe';
+
+fixture `TestCafe tests with Axe`
+    .page `http://example.com`;
+
+test('Automated accessibility testing', async t => {
+    const { error, results } = await axeCheck(t);
+    // results constant contains full axe Results object (https://www.deque.com/axe/core-documentation/api-documentation/#results-object)
 });
 ```
