@@ -9,6 +9,11 @@ const runAxe = ClientFunction((context, options = {}) => {
     });
 });
 
+const configureAxe = ClientFunction((spec) => {
+        return axe.configure(spec);
+    }
+);
+
 const createReport = violations => {
     if (!violations.length) {
         return green('0 violations found');
@@ -68,6 +73,7 @@ const checkForViolations = async (t, context, options) => {
 
 module.exports = {
     runAxe,
+    configureAxe,
     axeCheck,
     createReport,
     checkForViolations
