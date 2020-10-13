@@ -81,7 +81,7 @@ fixture `TestCafe tests with Axe`
     .page `http://example.com`;
 
 test('Automated accessibility testing', async t => {
-    const { error, results } = await axeCheck(t);
+    const { error, results } = await runAxe(t);
     // results constant contains full axe Results object (https://www.deque.com/axe/core-documentation/api-documentation/#results-object)
 });
 ```

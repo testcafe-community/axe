@@ -1,7 +1,7 @@
 declare module '@testcafe-community/axe' {
   import { ElementContext, RunOnly, AxeResults, Result, Spec } from 'axe-core';
 
-  interface axeCheckI {
+  interface AxeCheck {
       results: AxeResults;
       error?: any;
   }
@@ -15,7 +15,7 @@ declare module '@testcafe-community/axe' {
           elementRef?: Boolean;
           selectors?: Boolean;
       }
-  ): Promise<axeCheckI>;
+  ): Promise<AxeCheck>;
 
   export function configureAxe(spec: Spec): Promise<void>;
 
@@ -29,7 +29,7 @@ declare module '@testcafe-community/axe' {
       elementRef?: Boolean;
       selectors?: Boolean;
     }
-  ): Promise<axeCheckI>;
+  ): Promise<AxeCheck>;
 
   export function createReport(violations: Result[]): string;
 
