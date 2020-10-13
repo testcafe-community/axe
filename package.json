@@ -28,7 +28,7 @@
     "index.d.ts"
   ],
   "peerDependencies": {
-    "axe-core": ">=2.2.3 <4",
+    "axe-core": ">=2.2.3 <=4",
     "testcafe": "*"
   },
   "dependencies": {
