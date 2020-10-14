@@ -76,12 +76,21 @@ If you prefer to use a custom reporter for axe results you can get result object
 
 ```js
 import { runAxe } from '@testcafe-community/axe';
+import { createHtmlReport } from 'axe-html-reporter'; // example of custom html report for axe results
 
 fixture `TestCafe tests with Axe`
     .page `http://example.com`;
 
 test('Automated accessibility testing', async t => {
-    const { error, results } = await runAxe(t);
-    // results constant contains full axe Results object (https://www.deque.com/axe/core-documentation/api-documentation/#results-object)
+    const { error, results } = await runAxe(); // "context" and "options" parameters are optional
+    // "results" constant contains full axe Results object (https://www.deque.com/axe/core-documentation/api-documentation/#results-object)
+    await t.expect(error).eql(null, `axe check failed with an error: ${error}`);
+    createHtmlReport({
+        violations: results.violations,
+        passes: results.passes,
+        incomplete: results.incomplete,
+        url: results.url,
+        projectKey: 'EXAMPLE',
+    }); // creates HTML report with the default file name `accessibilityReport.html`
 });
 ```
