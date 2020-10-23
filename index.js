@@ -53,20 +53,22 @@ const createReport = violations => {
  * @param options
  * @returns {Promise<{error: *}|{error: *, results: {passes: *, violations: * }}>}
  */
-const axeCheck = async (t, context, options={}) => {
+const axeCheck = (t, context, options = { rules: {} }) => {
     try {
         // skipping the "document-title" rule as there is an issue with testcafe
         // being unable to find the title of a page inside the <head> tag.
         options = options["rules"]['document-title'] = {'enabled': false};
-        return await runAxe.with({ boundTestRun: t })(context, options);
-    } catch (e) {
-        return { error: e };
+        return runAxe.with({ boundTestRun: t })(context, options);
+    } catch (error) {
+        return Promise.resolve({ error });
     }
 };
 
 const checkForViolations = async (t, context, options) => {
-    const { results } = await axeCheck(t, context, options);
+    const { error, results } = await axeCheck(t, context, options);
 
+    await t.expect(error).notOk();
+ 
     await t.expect(results.violations.length === 0).ok(createReport(results.violations));
 }
 
