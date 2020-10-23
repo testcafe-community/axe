@@ -57,7 +57,7 @@ const axeCheck = (t, context, options = { rules: {} }) => {
     try {
         // skipping the "document-title" rule as there is an issue with testcafe
         // being unable to find the title of a page inside the <head> tag.
-        options = options["rules"]['document-title'] = {'enabled': false};
+        options.rules["document-title"] = { enabled: false };
         return runAxe.with({ boundTestRun: t })(context, options);
     } catch (error) {
         return Promise.resolve({ error });
