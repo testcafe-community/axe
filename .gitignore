@@ -2,3 +2,4 @@ node_modules
 .idea
 *.lockyarn.lock
 yarn.lock
+.vscode/
