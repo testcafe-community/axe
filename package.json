@@ -28,7 +28,7 @@
     "index.d.ts"
   ],
   "peerDependencies": {
-    "axe-core": ">=2.2.3 <=4",
+    "axe-core": ">=2.2.3 <=5",
     "testcafe": "*"
   },
   "dependencies": {
@@ -38,6 +38,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "axe-core": "^3.5.4"
+    "axe-core": "^4.1.1"
   }
 }
